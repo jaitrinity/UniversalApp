@@ -1,0 +1,73 @@
+<main class="Background" *ngIf='ShowLoading'>
+  <div class="loader">
+      <div class="loader__bar"></div>
+      <div class="loader__bar"></div>
+      <div class="loader__bar"></div>
+      <div class="loader__bar"></div>
+      <div class="loader__bar"></div>
+      <div class="loader__ball"></div>
+  </div>    
+</main>
+
+<mat-sidenav-container class="sidenav-container">
+  <!-- appResizable -->
+    <mat-sidenav #SideMenu class="sidenav" fixedInViewport 
+  
+        [mode]="'side'"
+        [opened]="ToggleVariable">
+      <mat-toolbar>
+        <img src="assets/img/OneNetworkLogo.png" alt="assets.logo.svg" height="30px">
+        <span>Process Automation</span>
+      </mat-toolbar>
+      <ul class="unselectable">
+        <li [routerLink]="[menu.routerLink]" [routerLinkActive] = '["ActiveRoute"]' *ngFor="let menu of menuList"> 
+            <img [src]="[menu.icon]" alt="Leaves Icon" style="width : 20px;border-radius: 10px"> 
+            {{menu.menuName}}
+        </li>
+      </ul>
+  
+        <!-- <button mat-button (click)='Logout()' style="position: absolute; bottom: 10px; left: 18px;">
+          {{empName}} || Logout 
+          <mat-icon>exit_to_app</mat-icon>
+        </button> -->
+              
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <mat-toolbar style="position: sticky; top: 0; z-index: 20;">
+        <button
+          type="button"
+          aria-label="Toggle sidenav"
+          mat-icon-button
+          (click)="SideMenu.toggle()">
+          <mat-icon aria-label="Side nav toggle icon" color='white'>menu</mat-icon>
+        </button>
+        <!-- <span class="SearchBarContainer">
+          <button mat-icon-button (click)='ToggledSearch = !ToggledSearch'>
+            <mat-icon style="color: #A8A9AA;">search</mat-icon>         
+          </button>
+          <span class="Searchbar" *ngIf='ToggledSearch' [@enterAnimation]>
+            Search Your Content Here.
+          </span>
+        </span> -->
+  
+        
+  
+        <span class="NavList">
+          <span matRipple matRippleUnbounded [routerLinkActive] = '["ActiveRoute"]' [routerLink]="[menu.routerLink]" *ngFor="let menu of menuTopList" >
+            {{menu.menuName}}
+          </span> 
+        </span>
+        <span class="example_spacer"></span>
+        <button mat-button (click)='Logout()' >
+          {{empName}} || Logout 
+          <mat-icon>exit_to_app</mat-icon>
+        </button>
+      </mat-toolbar>
+  
+      <div style="background: white;height: 86%;margin: 10px;border: 1px solid #efe1e1;">
+        <router-outlet></router-outlet>
+        <!-- Add Content Here -->
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  

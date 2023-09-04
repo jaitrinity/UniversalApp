@@ -1,0 +1,538 @@
+<div class="container-fluid" style="padding: 10px">
+  <mat-chip-list aria-label="Fish selection">
+    <mat-chip color="white" (click)="openAnyModal('createLocationModal')" selected>Create Location <mat-icon>add_circle_outline</mat-icon> </mat-chip>
+    <mat-chip color="white" (click)="openAnyModal('importLocationModal')" selected>Import Location <mat-icon>add_circle_outline</mat-icon> </mat-chip>
+    <mat-chip color="white" (click)="openAnyModal('createEmpLocModal')" selected>Create Employee Location Mapping <mat-icon>add_circle_outline</mat-icon> </mat-chip>
+  </mat-chip-list>
+</div>
+
+<mat-accordion class="example-headers-align">
+	<!-- <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" *ngIf="loginEmpRole == 'Admin' ">
+		<mat-expansion-panel-header>
+			<mat-panel-title>
+				Create Location
+			</mat-panel-title>
+		</mat-expansion-panel-header>
+    <div class="container-fluid" [ngStyle]="{'background-color':color2}" style="padding: 10px">
+        <div class="row" >
+          <div class="col-md-12">
+            <label class="text-white text-bold ">! All * fields are Mandatory.</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+              <label class="text-white text-bold ">State <span>*</span> </label>
+              <input type="text"
+                    placeholder="State"
+                    [formControl]="state"
+                    [matAutocomplete]="stateAuto"
+                    class="form-control input-sm tom-border-radius"
+                    id = 'stateAuto'
+                    (input) = "makeBlank('#cityAuto,#areaAuto')">
+              <mat-autocomplete #stateAuto="matAutocomplete" (optionSelected)="onSelectionChanged($event, 'city')" >
+                <mat-option *ngFor="let state of stateFilteredOptions | async" [value]="state">
+                  {{state}}
+                </mat-option>
+              </mat-autocomplete>
+          </div>
+          <div class="col-md-4">
+              <label class="text-white text-bold ">City <span>*</span> </label>
+              <input type="text"
+                    placeholder="City"
+                    [formControl]="city"
+                    [matAutocomplete]="cityAuto"
+                    class="form-control input-sm tom-border-radius"
+                    id = 'cityAuto'
+                    (input) = "makeBlank('#areaAuto')">
+              <mat-autocomplete #cityAuto="matAutocomplete" (optionSelected)="onSelectionChanged($event, 'area')" >
+                <mat-option *ngFor="let city of cityFilteredOptions | async" [value]="city">
+                  {{city}}
+                </mat-option>
+              </mat-autocomplete>
+          </div>
+          <div class="col-md-4">
+              <label class="text-white text-bold ">Area <span>*</span> </label>
+              <input type="text"
+                    placeholder="Area"
+                    [formControl]="area"
+                    [matAutocomplete]="areaAuto"
+                    id = 'areaAuto'
+                    class="form-control input-sm tom-border-radius">
+              <mat-autocomplete #areaAuto="matAutocomplete" >
+                <mat-option *ngFor="let area of areaFilteredOptions | async" [value]="area">
+                  {{area}}
+                </mat-option>
+              </mat-autocomplete>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2">
+            <label class="text-white text-bold ">Location Name <span>*</span> </label>
+            <input type="text" class="form-control input-sm tom-border-radius" [(ngModel)]="locationName">
+          </div>
+          <div class="col-md-8">
+            <label class="text-white text-bold ">Geo-coordinate <span>*</span> <i class="text-warning">{{geoInfo}}</i></label>
+            <input type="text" class="form-control input-sm tom-border-radius" [(ngModel)]="geoCoordinate" placeholder="click on map to get lat-long or enter comma seperate lat-long, Ex : 28.6490059,77.3668853" (keyup.enter)="searchLocation(1)">
+          </div>
+          
+          <div class="col-md-2">
+            <label style="color: transparent;display: block">filter</label>
+            <button class="btn text-white text-bold tom-border-radius" [ngStyle]="{'background-color':button}" (click)="submitLocData()">Add new</button>
+          </div>
+        </div>
+        
+       
+  
+      
+        <div class="row" *ngIf="isShowMap">
+          <div class="col-md-12">
+          <agm-map [zoom]="zoom" [latitude]="lat" [longitude]="lng" (mapClick)="onChooseLocation($event,1)">
+            <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+          </agm-map>
+          </div>
+        </div>
+      </div>
+
+    </mat-expansion-panel> -->
+
+    <!-- <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" *ngIf="loginEmpRole == 'Admin' ">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Employee Location Mapping
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="container-fluid" [ngStyle]="{'background-color':color2}" style="padding: 10px">
+        <div class="row" >
+          <div class="col-md-12">
+            <label class="text-white text-bold ">! All * fields are Mandatory.</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+              <label class="text-white text-bold ">State <span>*</span></label>
+              <ng-multiselect-dropdown [placeholder]="'Select'" [data]="stateList"
+                [(ngModel)]="selectedStateList" [settings]="singleSelectdropdownSettings"
+                (onSelect)="onSelectOrDeselectState($event)" (onDeSelect)="onSelectOrDeselectState($event)"
+                [disabled] = "!isNew">
+              </ng-multiselect-dropdown>
+          </div>
+          <div class="col-md-4">
+              <label class="text-white text-bold ">City</label>
+              <ng-multiselect-dropdown [placeholder]="'Select'" [data]="cityList"
+                [(ngModel)]="selectedCityList" [settings]="singleSelectdropdownSettings"
+                (onSelect)="onSelectOrDeselectCity($event)" (onDeSelect)="onSelectOrDeselectCity($event)"
+                (onSelectAll)="onSelectAllOrDeselectAllCity($event)" (onDeSelectAll) = "onSelectAllOrDeselectAllCity($event)"
+                [disabled] = "!isNew">
+              </ng-multiselect-dropdown>
+          </div>
+          <div class="col-md-4">
+              <label class="text-white text-bold ">Area</label>
+              <ng-multiselect-dropdown [placeholder]="'Select'" [data]="areaList"
+                [(ngModel)]="selectedAreaList" [settings]="singleSelectdropdownSettings"
+                (onSelect)="onSelectOrDeselectArea($event)" (onDeSelect)="onSelectOrDeselectArea($event)"
+                (onSelectAll)="onSelectAllOrDeselectAllArea($event)" (onDeSelectAll) = "onSelectAllOrDeselectAllArea($event)"
+                [disabled] = "!isNew">
+              </ng-multiselect-dropdown>
+          </div>
+
+          <div class="col-md-4">
+              <label class="text-white text-bold ">Role <span>*</span></label>
+              <ng-multiselect-dropdown [placeholder]="'Select'" [data]="roleList"
+                [(ngModel)]="selectedRoleList" [settings]="singleSelectdropdownSettings"
+                (onSelect)="onSelectOrDeselectRole($event)" (onDeSelect)="onSelectOrDeselectRole($event)"
+                [disabled] = "selectedStateList.length == 0">
+              </ng-multiselect-dropdown>
+          </div>
+
+          <div class="col-md-4">
+              <label class="text-white text-bold ">Employee <span>*</span></label>
+              <ng-multiselect-dropdown [placeholder]="'Select'" [data]="employeeList"
+                [(ngModel)]="selectedEmployeeList" [settings]="singleSelectdropdownSettings"
+                [disabled] = "selectedRoleList.length == 0">
+              </ng-multiselect-dropdown>
+          </div>
+
+          <div class="col-md-4">
+            <label style="color: transparent;display: block">filter</label>
+            <button *ngIf="isNew" class="btn text-white text-bold tom-border-radius" [ngStyle]="{'background-color':button}" (click)="submitEmpLocMappingData()">Submit</button> &nbsp;
+            <button *ngIf="!isNew" class="btn text-white text-bold tom-border-radius" [ngStyle]="{'background-color':button}" (click)="updateEmpLocMappingData()">Update</button> &nbsp;
+            <button *ngIf="!isNew" class="btn text-white text-bold tom-border-radius" [ngStyle]="{'background-color':button}" (click)="cancelEmpLocMappingData()">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </mat-expansion-panel> -->
+      
+    <!-- <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" *ngIf="loginEmpRole == 'Admin' ">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Import Location
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="container-fluid" [ngStyle]="{'background-color':color2}" style="padding: 10px">
+        <div class="row" >
+          <div class="col-md-12">
+            <label class="text-white text-bold ">! All * fields are Mandatory.</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2">
+            <label class="text-white text-bold ">Select excel file <span>*</span></label>
+            <input type="file" (change)="addfile($event)" id="locationFile" class="form-control input-sm tom-border-radius" 
+            placeholder="Upload file" accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+          </div>
+
+          <div class="col-md-2">
+            <label style="color: transparent;display: block">filter</label>
+            <button class="btn text-white text-bold tom-border-radius" [ngStyle]="{'background-color':button}" (click)="uploadLocData()">
+                <i class="fa fa-upload" aria-hidden="true"></i> Upload
+            </button>
+          </div>
+
+          <div class="col-md-2">
+            <label style="color: transparent;display: block">filter</label>
+            <button class="btn text-white text-bold tom-border-radius" [ngStyle]="{'background-color':button}" (click)="downloadFormat()">
+                <i class="fa fa-download" aria-hidden="true"></i> Download Format
+            </button>
+          </div>
+        </div>
+      </div>
+      
+    </mat-expansion-panel> -->
+
+    <!-- <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          View Employee Location Mapping
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="row" style="margin-bottom: 10px;overflow: auto;">
+        <div class="col-md-12 table-data-div">
+          <ng2-smart-table [settings]="empLocMappingTableSettings" [source]="empLocMappingList" (custom)="onCustomAction($event)" *ngIf="loginEmpRole == 'Admin' "></ng2-smart-table>
+          <ng2-smart-table [settings]="empLocMappingNonEditTableSettings" [source]="empLocMappingList" *ngIf="loginEmpRole != 'Admin' "></ng2-smart-table>
+        </div>
+      </div>
+
+    </mat-expansion-panel> -->
+
+    <!-- <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)" *ngIf="loginEmpRole == 'Admin' ">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          View Location
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="row" style="margin-bottom: 10px;overflow: auto;">
+        <div class="col-md-12 table-data-div">
+          <ng2-smart-table [settings]="locationTableSettings" [source]="locationList" (custom)="onCustomAction($event)"></ng2-smart-table>
+        </div>
+      </div>
+
+    </mat-expansion-panel> -->
+  </mat-accordion>
+
+  <mat-tab-group>
+    
+    <mat-tab label="View Location">
+      <div class="row" style="margin-bottom: 10px;overflow: auto;">
+        <div class="col-md-12 table-data-div">
+          <ng2-smart-table [settings]="locationTableSettings" [source]="locationList" (custom)="onCustomAction($event)"></ng2-smart-table>
+        </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="View Employee Location Mapping">
+      <div class="row" style="margin-bottom: 10px;overflow: auto;">
+        <div class="col-md-12 table-data-div">
+          <ng2-smart-table [settings]="empLocMappingTableSettings" [source]="empLocMappingList" (custom)="onCustomAction($event)" *ngIf="loginEmpRole == 'Admin' " class="empLocMappClass"></ng2-smart-table>
+          <ng2-smart-table [settings]="empLocMappingNonEditTableSettings" [source]="empLocMappingList" *ngIf="loginEmpRole != 'Admin' "  class="empLocMappClass"></ng2-smart-table>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+      
+      <div id="locationInfoModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-md">
+          <div class="modal-content">
+              <div class="modal-header" style="padding: 10px !important;">
+                <h4 class="modal-title">! Info</h4>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-md-12 text-center">
+                    <h3>Comma separate Latitude and Longitude</h3>
+                    <div>Syntax : latitude,longitude</div>
+                    <div>Ex : 22.1234567,87.1234567</div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <!-- <button type="button" class="btn  btn-sm hsil-red text-white text-bold" (click)="closeModal()">Close</button> -->
+                <button type="button" class="btn  btn-sm text-white text-bold" [ngStyle]="{'background-color':button}" (click)="closeModal()">Close</button>
+              </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- style="max-width:  1320px !important" -->
+      <div id="createLocationModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header" style="padding: 10px !important;">
+              <h4 class="modal-title"></h4>
+              <button type="button" class="btn  btn-sm text-white" [ngStyle]="{'background-color':button}" (click)="closeAnyModal('createLocationModal')">Close</button>
+            </div>
+            <!-- [ngStyle]="{'background-color':color2}" -->
+            <div class="modal-body det-modal-body">
+              <div class="row" >
+                <div class="col-md-12">
+                  <label class="text-bold ">! All * fields are Mandatory.</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                    <label class="text-bold ">State <span>*</span> </label>
+                    <input type="text"
+                          placeholder="State"
+                          [formControl]="state"
+                          [matAutocomplete]="stateAuto"
+                          class="form-control input-sm tom-border-radius"
+                          id = 'stateAuto'
+                          (input) = "makeBlank('#cityAuto,#areaAuto')">
+                    <mat-autocomplete #stateAuto="matAutocomplete" (optionSelected)="onSelectionChanged($event, 'city')" >
+                      <mat-option *ngFor="let state of stateFilteredOptions | async" [value]="state">
+                        {{state}}
+                      </mat-option>
+                    </mat-autocomplete>
+                </div>
+                <div class="col-md-4">
+                    <label class="text-bold ">City <span>*</span> </label>
+                    <input type="text"
+                          placeholder="City"
+                          [formControl]="city"
+                          [matAutocomplete]="cityAuto"
+                          class="form-control input-sm tom-border-radius"
+                          id = 'cityAuto'
+                          (input) = "makeBlank('#areaAuto')">
+                    <mat-autocomplete #cityAuto="matAutocomplete" (optionSelected)="onSelectionChanged($event, 'area')" >
+                      <mat-option *ngFor="let city of cityFilteredOptions | async" [value]="city">
+                        {{city}}
+                      </mat-option>
+                    </mat-autocomplete>
+                </div>
+                <div class="col-md-4">
+                    <label class="text-bold ">Area <span>*</span> </label>
+                    <input type="text"
+                          placeholder="Area"
+                          [formControl]="area"
+                          [matAutocomplete]="areaAuto"
+                          id = 'areaAuto'
+                          class="form-control input-sm tom-border-radius">
+                    <mat-autocomplete #areaAuto="matAutocomplete" >
+                      <mat-option *ngFor="let area of areaFilteredOptions | async" [value]="area">
+                        {{area}}
+                      </mat-option>
+                    </mat-autocomplete>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label class="text-bold ">Location Name <span>*</span> </label>
+                  <input type="text" class="form-control input-sm tom-border-radius" [(ngModel)]="locationName">
+                </div>
+                <div class="col-md-6">
+                  <label class="text-bold ">Geo-coordinate <span>*</span> </label>
+                  <input type="text" class="form-control input-sm tom-border-radius" [(ngModel)]="geoCoordinate" placeholder="click on map to get lat-long or enter comma seperate lat-long, Ex : 28.6490059,77.3668853" (keyup.enter)="searchLocation(1)">
+                  <!-- <i class="text-warning">{{geoInfo}}</i> -->
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12 text-center">
+                  <!-- <label style="color: transparent;display: block">filter</label> -->
+                  <button class="btn text-white text-bold tom-border-radius" [ngStyle]="{'background-color':button}" (click)="submitLocData()">Submit</button>
+                </div>
+              </div>
+        
+              <div class="row" *ngIf="isShowMap">
+                <div class="col-md-12">
+                  <label class="text-bold ">Tap/Click to place the marker <span>*</span> </label>
+                  <agm-map [zoom]="zoom" [latitude]="lat" [longitude]="lng" (mapClick)="onChooseLocation($event,1)">
+                    <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+                  </agm-map>
+                </div>
+              </div>
+            
+            </div>
+            <!-- <div class="modal-footer">
+
+            </div> -->
+          </div>
+        </div>
+      </div>
+
+      <div id="importLocationModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-md">
+          <div class="modal-content">
+            <div class="modal-header" style="padding: 10px !important;">
+              <h4 class="modal-title"></h4>
+              <button type="button" class="btn  btn-sm text-white" [ngStyle]="{'background-color':button}" (click)="closeAnyModal('importLocationModal')">Close</button>
+            </div>
+            <!-- [ngStyle]="{'background-color':color2}" -->
+            <div class="modal-body det-modal-body">
+              <div class="row" >
+                <div class="col-md-12">
+                  <label class="text-bold ">! All * fields are Mandatory.</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <label class="text-bold ">Select excel file <span>*</span></label>
+                  <input type="file" (change)="addfile($event)" id="locationFile" class="form-control input-sm tom-border-radius" 
+                  placeholder="Upload file" accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label style="color: transparent;display: block">filter</label>
+                  <button class="btn text-white text-bold tom-border-radius" [ngStyle]="{'background-color':button}" (click)="uploadLocData()">
+                      <i class="fa fa-upload" aria-hidden="true"></i> Upload
+                  </button>
+                </div>
+              
+                <div class="col-md-6">
+                  <label style="color: transparent;display: block">filter</label>
+                  <button class="btn text-white text-bold tom-border-radius" [ngStyle]="{'background-color':button}" (click)="downloadFormat()">
+                      <i class="fa fa-download" aria-hidden="true"></i> Download Format
+                  </button>
+                </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+              
+          </div>
+        </div>
+      </div>
+    </div>
+      
+      <div id="createEmpLocModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header" style="padding: 10px !important;">
+              <h4 class="modal-title"></h4>
+              <button type="button" class="btn  btn-sm text-white" [ngStyle]="{'background-color':button}" (click)="closeAnyModal('createEmpLocModal')">Close</button>
+            </div>
+            <!-- [ngStyle]="{'background-color':color2}" -->
+            <div class="modal-body det-modal-body">
+              <div class="row" >
+                <div class="col-md-12">
+                  <label class="text-bold ">! All * fields are Mandatory.</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                    <label class="text-bold ">State <span>*</span></label>
+                    <ng-multiselect-dropdown [placeholder]="'Select'" [data]="stateList"
+                      [(ngModel)]="selectedStateList" [settings]="singleSelectdropdownSettings"
+                      (onSelect)="onSelectOrDeselectState($event)" (onDeSelect)="onSelectOrDeselectState($event)"
+                      [disabled] = "!isNew">
+                    </ng-multiselect-dropdown>
+                </div>
+                <div class="col-md-4">
+                    <label class="text-bold ">City</label>
+                    <ng-multiselect-dropdown [placeholder]="'Select'" [data]="cityList"
+                      [(ngModel)]="selectedCityList" [settings]="singleSelectdropdownSettings"
+                      (onSelect)="onSelectOrDeselectCity($event)" (onDeSelect)="onSelectOrDeselectCity($event)"
+                      (onSelectAll)="onSelectAllOrDeselectAllCity($event)" (onDeSelectAll) = "onSelectAllOrDeselectAllCity($event)"
+                      [disabled] = "!isNew">
+                    </ng-multiselect-dropdown>
+                </div>
+                <div class="col-md-4">
+                    <label class="text-bold ">Area</label>
+                    <ng-multiselect-dropdown [placeholder]="'Select'" [data]="areaList"
+                      [(ngModel)]="selectedAreaList" [settings]="singleSelectdropdownSettings"
+                      (onSelect)="onSelectOrDeselectArea($event)" (onDeSelect)="onSelectOrDeselectArea($event)"
+                      (onSelectAll)="onSelectAllOrDeselectAllArea($event)" (onDeSelectAll) = "onSelectAllOrDeselectAllArea($event)"
+                      [disabled] = "!isNew">
+                    </ng-multiselect-dropdown>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                    <label class="text-bold ">Role <span>*</span></label>
+                    <ng-multiselect-dropdown [placeholder]="'Select'" [data]="roleList"
+                      [(ngModel)]="selectedRoleList" [settings]="singleSelectdropdownSettings"
+                      (onSelect)="onSelectOrDeselectRole($event)" (onDeSelect)="onSelectOrDeselectRole($event)"
+                      [disabled] = "selectedStateList.length == 0">
+                    </ng-multiselect-dropdown>
+                </div>
+      
+                <div class="col-md-6">
+                    <label class="text-bold ">Employee <span>*</span></label>
+                    <ng-multiselect-dropdown [placeholder]="'Select'" [data]="employeeList"
+                      [(ngModel)]="selectedEmployeeList" [settings]="singleSelectdropdownSettings"
+                      [disabled] = "selectedRoleList.length == 0">
+                    </ng-multiselect-dropdown>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 text-center">
+                  <label style="color: transparent;display: block">filter</label>
+                  <button *ngIf="isNew" class="btn text-white text-bold tom-border-radius" [ngStyle]="{'background-color':button}" (click)="submitEmpLocMappingData()">Submit</button> &nbsp;
+                  <button *ngIf="!isNew" class="btn text-white text-bold tom-border-radius" [ngStyle]="{'background-color':button}" (click)="updateEmpLocMappingData()">Update</button> &nbsp;
+                  <button *ngIf="!isNew" class="btn text-white text-bold tom-border-radius" [ngStyle]="{'background-color':button}" (click)="cancelEmpLocMappingData()">Cancel</button>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div id="editLocationModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg" style="max-width:  1320px !important">
+            <div class="modal-content">
+                <div class="modal-header" style="padding: 10px !important;">
+                  <h4 class="modal-title">Edit : {{editableLocationId}}</h4>
+                  <!-- <button type="button" class="btn  btn-sm hsil-red text-white" (click)="closeEditModal()">Close</button> -->
+                  <button type="button" class="btn  btn-sm text-white" [ngStyle]="{'background-color':button}" (click)="closeEditModal()">Close</button>
+                </div>
+                <!-- [ngStyle]="{'background-color':color2}" -->
+                <div class="modal-body det-modal-body">
+                  <div class="row">
+                    <div class="col-md-2">
+                      <label class="text-bold ">Name</label>
+                      <input type="text" class="form-control input-sm tom-border-radius" [(ngModel)]="editableLocationName" (input)="isDoAnyChange = false">
+                    </div>
+                    <div class="col-md-8">
+                      <label class="text-bold ">Geo-coordinate <i class="text-warning">{{geoInfo}}</i></label>
+                      <input type="text" class="form-control input-sm tom-border-radius" [(ngModel)]="editableGeoCoordinate" placeholder="click on map to get lat-long or enter comma seperate lat-long, Ex : 28.6490059,77.3668853" (keyup.enter)="searchLocation(2)" (input)="isDoAnyChange = false">
+                    </div>
+                    <!-- <div class="col-md-2">
+                      <label style="color: transparent;display: block">0</label>
+                      <label class="text-white text-bold" (click)="goToMap()"> 
+                        <i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp;
+                        <span class="goToMap">Go to map</span>
+                      </label>
+                    </div> -->
+                
+                    <div class="col-md-2">
+                      <label style="color: transparent;display: block">filter</label>
+                      <!-- <button class="btn hsil-red text-white text-bold tom-border-radius" [(disabled)] = "isDoAnyChange" (click)="editLocationData()">Save</button> -->
+                      <button class="btn text-white text-bold tom-border-radius" [ngStyle]="{'background-color':button}" [(disabled)] = "isDoAnyChange" (click)="editLocationData()">Save</button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12" style="margin-top:10px">
+                      <label class="text-bold ">Tap/Click to place the marker <span>*</span> </label>
+                      <agm-map [zoom]="zoom" [latitude]="editLat" [longitude]="editLng" (mapClick)="onChooseLocation($event,2);isDoAnyChange = false" class="editMap">
+                          <agm-marker [latitude]="editLat" [longitude]="editLng"></agm-marker>
+                      </agm-map>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <!-- <button type="button" class="btn  btn-sm hsil-red text-white" (click)="closeModal()">Close</button> -->
+                </div>
+            </div>
+        </div>
+      </div>

@@ -1,0 +1,197 @@
+<main class="Background" *ngIf='ShowLoading'>
+    <div class="loader">
+        <div class="loader__bar"></div>
+        <div class="loader__bar"></div>
+        <div class="loader__bar"></div>
+        <div class="loader__bar"></div>
+        <div class="loader__bar"></div>
+        <div class="loader__ball"></div>
+    </div>    
+</main>
+
+<!-- <section>
+    <div class="FormContainer">
+        
+        <div class="FormHeading">
+            <h2>One Network</h2>
+            <h6>By Trinity</h6>
+        </div>
+
+        <div class="MainForm smootheffect">
+            <form #LoginForm = "ngForm" (ngSubmit)='OnSubmitting()'>
+                <div class="FormInputFields">
+                    <h1>Sign In to Your Dashboard</h1>
+
+
+                    <mat-form-field appearance="legacy" color="primary" hideRequiredMarker>
+                        <mat-label>Mobile</mat-label>
+                        <input [(ngModel)]="loginModel.username" name="username" matInput placeholder="Mobile" required #uname='ngModel'>
+                        <mat-error *ngIf="uname.touched && uname.invalid">
+                            Mobile is <strong>required</strong>
+                          </mat-error>
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="legacy" color="primary" hideRequiredMarker>
+                        <mat-label>Password</mat-label>
+                        <input [(ngModel)]="loginModel.password" name="password" matInput [type]="hide ? 'password' : 'text'" placeholder="Enter Password" required #pass='ngModel'>
+                        <mat-error *ngIf="pass.touched && pass.invalid">
+                            password is <strong>required</strong>
+                          </mat-error>
+                        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                    </mat-form-field>
+    
+                    <mat-error *ngIf="invalid">
+                        INVALID <strong>Username</strong> or <strong>Password</strong>
+                    </mat-error>
+                    <label (click)="openForgetPasswordModel()" class="tom-text-color" style="float:right;cursor: pointer;text-decoration: underline;margin-bottom: 15px">
+                        Forget Password ?
+                    </label>
+                    <div style="text-align: end;">
+                        <button mat-raised-button [disabled]='LoginForm.form.invalid' [class.Activebutton]='!LoginForm.form.invalid'>
+                            Submit
+                        </button>
+                    </div>
+
+                </div>
+            </form>
+
+        </div>
+
+
+    </div>
+</section> -->
+<div id="container">
+  <div id="image-container">
+    <div style="padding-top:115px;color: white;font-size: 40px;font-weight: 600">
+      Process Automation
+    </div>
+    <div style="padding:80px 0px;color: white;font-size: 30px;font-weight: 600;line-height: 1.5">
+      <span>"</span>A World Of Untold Possibilities With
+      End-To-End Operations Management<span>"</span>
+    </div>
+    <div style="padding:50px 0px;">
+      <a [href]="facebookLink" target="blank">
+        <img class="social-network-img" src="assets/img/FacebookLogo.png"/>
+      </a>
+      <a [href]="linkedInLink" target="black">
+        <img class="social-network-img" src="assets/img/LinkedInLogo.png"/>
+      </a>
+      <a [href]="twitterLink" target="black">
+        <img class="social-network-img" src="assets/img/TwitterLogo.png"/>
+      </a>
+    </div>
+  </div>
+  <div id="form-container">
+    <div class="FormContainer">
+        
+        <div class="FormHeading"> 
+            <h1>Process Automation By</h1>
+            <!-- <h6>By Trinity</h6>  -->
+            <img src="assets/img/TrinityLogo.jpg" class="company-logo"/>
+
+         </div>
+
+        <div class="MainForm smootheffect">
+            <form #LoginForm = "ngForm" (ngSubmit)='OnSubmitting()'>
+                <div class="FormInputFields">
+                    <h1>Hi</h1>
+                    <h1>Welcome Back !</h1>
+
+
+                    <mat-form-field appearance="legacy" color="primary" hideRequiredMarker>
+                        <mat-label>Mobile</mat-label>
+                        <input [(ngModel)]="loginModel.username" name="username" matInput placeholder="Mobile" required #uname='ngModel'>
+                        <mat-error *ngIf="uname.touched && uname.invalid">
+                            Mobile is <strong>required</strong>
+                          </mat-error>
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="legacy" color="primary" hideRequiredMarker>
+                        <mat-label>Password</mat-label>
+                        <input [(ngModel)]="loginModel.password" name="password" matInput [type]="hide ? 'password' : 'text'" placeholder="Enter Password" required #pass='ngModel'>
+                        <mat-error *ngIf="pass.touched && pass.invalid">
+                            password is <strong>required</strong>
+                          </mat-error>
+                        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                    </mat-form-field>
+    
+                    <mat-error *ngIf="invalid">
+                        INVALID <strong>Username</strong> or <strong>Password</strong>
+                    </mat-error>
+                    <label (click)="openForgetPasswordModel()" class="text-bold" style="float:right;cursor: pointer;text-decoration: underline;margin-bottom: 15px">
+                        Forget Password ?
+                    </label>
+                    <div style="text-align: end;">
+                        <button mat-raised-button [disabled]='LoginForm.form.invalid' [class.Activebutton]='!LoginForm.form.invalid'>
+                            Login
+                        </button>
+                    </div>
+
+                </div>
+            </form>
+
+        </div>
+
+
+    </div>
+  </div>
+</div>
+
+<div id="forgetPasswordModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header" style="padding: 10px !important;">
+          <h4 class="modal-title" class="">Reset Password</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-7">
+              <label class="text-bold">Mobile Number</label>
+              <input type="text" [(ngModel)]="mobileNumber" OnlyNumber="true" LengthValidater="10" class="form-control" placeholder="enter mobile"/>
+            </div>
+            <div class="col-md-5">
+              <label style="color: transparent;display: block">Send OTP</label>
+              <button [ngStyle]="{'background-color':button}" class="btn btn-block text-bold text-white" [disabled] = "mobileNumber == '' || mobileNumber.length<9 " (click)="sendOTP()">Send OTP</button>
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="col-md-7">
+              <label class="text-bold">OTP</label>
+              <input type="text" [(ngModel)]="otpNumber" OnlyNumber="true" LengthValidater="6" class="form-control" placeholder="enter 6 digit OTP"/>
+            </div>
+            <div class="col-md-5">
+              <label style="color: transparent;display: block">Verify OTP</label>
+              <button [ngStyle]="{'background-color':button}" class="btn btn-block text-bold text-white" [disabled] = "otpNumber == '' || otpNumber.length<6  " (click)="VerifyOTP()">Verify OTP</button>
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="col-md-7">
+              <label class="text-bold">New Password</label>
+              <input type="password" [(ngModel)]="newPassword" [disabled] = "!isOTP_Validate" class="form-control" placeholder="enter new password"/>
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="col-md-7">
+              <label class="text-bold">Confirm Password</label>
+              <input type="password" [(ngModel)]="confirmPassword" [disabled] = "!isOTP_Validate" class="form-control" placeholder="confirm password"/>
+            </div>
+            <div class="col-md-5">
+              <label style="color: transparent;display: block">Change password</label>
+              <button [ngStyle]="{'background-color':button}" class="btn btn-block text-bold text-white" [disabled] = "confirmPassword == '' " (click)="changePassword()">Change password</button>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button [ngStyle]="{'background-color':button}" type="button" class="btn  btn-sm text-white text-bold" (click)="closeModal()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
